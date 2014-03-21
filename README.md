@@ -4,7 +4,7 @@ Some pages could be stored for some time - at least for users that are just look
 
 Installation
 ------------
-1.    Copy the module to you modules folder.
+1.    Copy the folder "modules" 1:1 to your shop root.
 2.    Create the directory ocb_cache in your tmp folder
 3.    Make the new cache directory writable
 4.    Activate module in the OXID backend.
