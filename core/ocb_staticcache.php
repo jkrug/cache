@@ -111,6 +111,10 @@ class ocb_staticcache
             return false;
         }
         
+        if($this->_hasBasketItems()){
+            return false;
+        }
+        
         return true;
     }
     
@@ -140,5 +144,14 @@ class ocb_staticcache
         $sFileName = md5($requestUrl);
        
         return getShopBasePath() . '/tmp/ocb_cache/' . $sFileName . '.json';
+    }
+    
+    protected function _hasBasketItems(){
+        $oBasket = oxRegistry::getSession()->getBasket();
+        if($oBasket && $oBasket->getProductsCount() > 0){
+            return true;
+        }
+        
+        return false;
     }
 }
