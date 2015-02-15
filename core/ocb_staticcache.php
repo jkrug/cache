@@ -9,6 +9,8 @@ class ocb_staticcache
                                                 'details',
                                                 'content'
                                             );
+
+    protected $_sCacheDir = null;
     
     public function processCache()
     {
@@ -142,8 +144,9 @@ class ocb_staticcache
         $oUtilsServer = oxRegistry::get( "oxUtilsServer" );
         $requestUrl = $oUtilsServer->getServerVar( "REQUEST_URI" );
         $sFileName = md5($requestUrl);
+        $sPath = $this->_getStaticCachePath();
        
-        return getShopBasePath() . '/tmp/ocb_cache/' . $sFileName . '.json';
+        return $sPath . $sFileName . '.json';
     }
     
     protected function _hasBasketItems(){
@@ -153,5 +156,21 @@ class ocb_staticcache
         }
         
         return false;
+    }
+
+    protected function _getStaticCachePath(){
+        if(!$this->_sCacheDir){
+            $myConfig = oxRegistry::getConfig();
+
+            //check for the Smarty dir
+            $sCompileDir = $myConfig->getConfigParam('sCompileDir');
+            $sCacheDir = $sCompileDir . "/ocb_cache/";
+            if (!is_dir($sCacheDir)) {
+                @mkdir($sCacheDir);
+            }
+            $this->_sCacheDir = $sCacheDir;
+        }
+        
+        return $this->_sCacheDir;
     }
 }
