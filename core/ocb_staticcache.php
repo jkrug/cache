@@ -122,7 +122,13 @@ class ocb_staticcache
             return false;
         }
         $oConf = oxRegistry::getConfig();
-        $partial = $oConf->getParameter('renderPartial');
+        
+        // check for oxid version
+        if (version_compare('4.7.0', $oConf->getVersion(), '<')) {
+        	$partial = $oConf->getRequestParameter('renderPartial');
+        }else{
+        	$partial = $oConf->getParameter('renderPartial');
+        }
 
         if(!empty($partial))
         {
