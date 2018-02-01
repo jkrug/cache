@@ -17,20 +17,22 @@ $sMetadataVersion = '1.1';
  * Module information
  */
 $aModule = array(
-    'id'           => 'ocb_staticcache',
-    'title'        => 'OXID Cookbook :: Static Cache',
-    'description'  => 'Caches some pages as static files.',
-    'thumbnail'    => 'cookbook.jpg',
-    'version'      => '1.0',
+    'id'           => 'jkrug/cache',
+    'title'        => 'Joscha Krug :: OXID Cache',
+    'description'  => 'Get a better performance by caching some stuff and tweaking the performance.',
+    // ToDo: Add Image
+    'thumbnail'    => 'jkrug.jpg',
+    'version'      => '2.0',
     'author'       => 'Joscha Krug',
-    'url'          => 'http://www.oxid-kochbuch.de',
-    'email'        => 'krug@marmalade.de',
+    'url'          => 'https://www.makaira.io',
+    'email'        => 'jk@makaira.io',
     'extend'       => array(
-        'oxshopcontrol' => 'ocb_staticcache/core/ocb_staticcache_oxshopcontrol',
-        'oxoutput'      => 'ocb_staticcache/core/ocb_staticcache_oxoutput',
+        'oxshopcontrol' => 'jkrug/cache/extend/core/jkrug_cache_oxshopcontrol',
+        'oxoutput'      => 'jkrug/cache/extend/core/jkrug_cache_oxoutput',
     ),
     'files'        => array(
-        'ocb_staticcache' => 'ocb_staticcache/core/ocb_staticcache.php'
+        'base_html_cache' => 'jkrug/cache/src/base_html_cache.php',
+        'file_backend'    => 'jkrug/cache/src/backends/file_backend.php'
     ),
     'settings'       => array(
         array(

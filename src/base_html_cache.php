@@ -1,8 +1,9 @@
 <?php
 
-class ocb_staticcache
+class base_html_cache
 {
 
+    //ToDo: Make configarable in the backend.
     protected $_aCachableControllers = array(
                                                 'start',
                                                 'alist',
@@ -10,8 +11,16 @@ class ocb_staticcache
                                                 'content'
                                             );
 
-    protected $_sCacheDir = null;
+    protected $_cacheBackend = null;
 
+    public function __construct( $oCacheBackend )
+    {
+        $this->_cacheBackend = $oCacheBackend;
+    }
+
+    /**
+     * checks for a valid cache and if found, outputs it and skips the other rendering
+     */
     public function processCache()
     {
         if( !$this->isCachableRequest() )
@@ -19,34 +28,22 @@ class ocb_staticcache
             return;
         }
 
-        $sCachePath = $this->getCacheFileName();
+        $key = $this->getCacheKey();
 
-        if(!is_file($sCachePath))
+        $sContent = $this->_cacheBackend->getCache($key);
+
+        if(is_string($sContent))
         {
-            return;
+            exit($sContent);
         }
-
-        $sCacheData = file_get_contents($sCachePath);
-
-
-        $aCacheData = json_decode($sCacheData, true);
-        if (false == oxRegistry::getConfig()->isUtf()) {
-            $sCharset = oxRegistry::getLang()->translateString('charset');
-            foreach ($aCacheData as $sIndex => $scontent) {
-                $aCacheData[$sIndex] = mb_convert_encoding($scontent, $sCharset, 'UTF-8');
-            }
-        }
-
-        $iCacheTime     = $aCacheData['timestamp'];
-        $content        = $aCacheData['content'];
-        $iCacheLifetime = oxRegistry::getConfig()->getShopConfVar('iCacheLifetime',null,'module:ocb_staticcache');
-        if( time() < $iCacheTime+$iCacheLifetime )
-        {
-            exit($content);
-        }
-        unlink( $sCachePath );
     }
 
+    /**
+     * Minify the html output
+     *
+     * @param $sValue string
+     * @return string
+     */
     protected function _minifyHtml( $sValue )
     {
         $aSearch = array( '/ {2,}/', '/<!--.*?-->|\t|(?:\r?\n[ \t]*)+/s' );
@@ -57,6 +54,13 @@ class ocb_staticcache
         return $sMinified;
     }
 
+    /**
+     * Adds the default OXID version Tags.
+     * Please keep this function with respect for OXID!
+     *
+     * @param $sOutput
+     * @return full content string
+     */
     public function addCacheVersionTags( $sOutput )
     {
         $oConf = oxRegistry::getConfig();
@@ -77,7 +81,12 @@ class ocb_staticcache
         return $sOutput;
     }
 
-    public function buildCache($sContent)
+    /**
+     * Create the Cache
+     *
+     * @param $sContent fully rendered content
+     */
+    public function createCache($sContent)
     {
         if( !$this->isCachableRequest() )
         {
@@ -85,27 +94,25 @@ class ocb_staticcache
         }
         $sContent = $this->_minifyHtml( $sContent );
 
-        $aCacheData                 = array();
-        $aCacheData['controller']   = $this->getClassName();
-        $aCacheData['content']      = $this->addCacheVersionTags($sContent);
-        $aCacheData['timestamp']    = time();
+        $sContent = $this->addCacheVersionTags($sContent);
 
         if (false == oxRegistry::getConfig()->isUtf()) {
             $sCharset = oxRegistry::getLang()->translateString('charset');
 
-            foreach ($aCacheData as $sIndex => $scontent) {
-                $aCacheData[$sIndex] = mb_convert_encoding($scontent, 'UTF-8', $sCharset);
-            }
+            $sContent = mb_convert_encoding($sContent, 'UTF-8', $sCharset);
         }
 
-        $sCacheData     = json_encode($aCacheData);
+        $key = $this->getCacheKey();
 
-        $sCacheFileName = $this->getCacheFileName();
-
-        file_put_contents($sCacheFileName, $sCacheData);
+        $this->_cacheBackend->setCache($key, $sContent);
 
     }
 
+    /**
+     * Check if this request could be cached.
+     *
+     * @return bool
+     */
     public function isCachableRequest()
     {
         if( !in_array( $this->getClassName(), $this->_aCachableControllers) )
@@ -156,21 +163,40 @@ class ocb_staticcache
        return $this->sClassName;
     }
 
+    /**
+     * I guess we should refactor this.
+     * Anway the extending classes inject data via this. :-/
+     *
+     * @deprecated
+     * @param $name
+     * @param $value
+     */
     public function __set( $name, $value)
     {
         $this->$name = $value;
     }
 
-    public function getCacheFileName()
+    /**
+     * Calclulate the Cache Key
+     *
+     * @return string cache Key
+     */
+    public function getCacheKey()
     {
+        //ToDo: Change this for caching widgets
         $oUtilsServer = oxRegistry::get( "oxUtilsServer" );
         $requestUrl = $oUtilsServer->getServerVar( "REQUEST_URI" );
-        $sFileName = md5($requestUrl);
-        $sPath = $this->_getStaticCachePath();
+        $key = md5($requestUrl);
 
-        return $sPath . $sFileName . '.json';
+        return $key;
     }
 
+    /**
+     * Check if there are items in the basket which will lead to a non cachable request.
+     * //ToDo: this could be skipped for caching most of the widgets. right?!
+     *
+     * @return bool
+     */
     protected function _hasBasketItems(){
         $oBasket = oxRegistry::getSession()->getBasket();
         if($oBasket && $oBasket->getProductsCount() > 0){
@@ -180,19 +206,4 @@ class ocb_staticcache
         return false;
     }
 
-    protected function _getStaticCachePath(){
-        if(!$this->_sCacheDir){
-            $myConfig = oxRegistry::getConfig();
-
-            //check for the Smarty dir
-            $sCompileDir = $myConfig->getConfigParam('sCompileDir');
-            $sCacheDir = $sCompileDir . "/ocb_cache/";
-            if (!is_dir($sCacheDir)) {
-                @mkdir($sCacheDir);
-            }
-            $this->_sCacheDir = $sCacheDir;
-        }
-
-        return $this->_sCacheDir;
-    }
 }
