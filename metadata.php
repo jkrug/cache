@@ -28,7 +28,6 @@ $aModule = array(
     'email'        => 'jk@makaira.io',
     'extend'       => array(
         'oxshopcontrol' => 'jkrug/cache/extend/core/jkrug_cache_oxshopcontrol',
-        'oxoutput'      => 'jkrug/cache/extend/core/jkrug_cache_oxoutput',
     ),
     'files'        => array(
         'base_html_cache' => 'jkrug/cache/src/base_html_cache.php',

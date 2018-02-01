@@ -6,6 +6,7 @@ This module is a new and better version of the module described in the OXID Cook
 
 Please keep in mind. This is ways more simple then the OXID eShop high performance option.
 If you have a large shop and need a reverse proxy cache think of that well maintained solution.
+The performance when really skipping the full application will be MUCH better and will keep your servers on nicer temperatures. 
 
 If you need help, feel free to ask me or my team from [ScaleCommerce](https://scale.sc).
 

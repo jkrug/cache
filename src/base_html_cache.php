@@ -4,7 +4,9 @@ class base_html_cache
 {
 
     //ToDo: Make configarable in the backend.
+    //ToDo: make widgets configurable separate to skip some of them with full basket.
     protected $_aCachableControllers = array(
+                                                //'oxwcategorytree', # For widgets we need to find a solution for oxstyle and oxscript
                                                 'start',
                                                 'alist',
                                                 'details',
@@ -21,11 +23,11 @@ class base_html_cache
     /**
      * checks for a valid cache and if found, outputs it and skips the other rendering
      */
-    public function processCache()
+    public function getCacheContent()
     {
         if( !$this->isCachableRequest() )
         {
-            return;
+            return false;
         }
 
         $key = $this->getCacheKey();
@@ -34,8 +36,10 @@ class base_html_cache
 
         if(is_string($sContent))
         {
-            exit($sContent);
+            return $sContent;
         }
+
+        return false;
     }
 
     /**
@@ -48,6 +52,7 @@ class base_html_cache
      */
     protected function _minifyHtml( $sValue )
     {
+        return $sValue;
         $aSearch = array( '/ {2,}/', '/<!--.*?-->|\t|(?:\r?\n[ \t]*)+/s' );
         $aReplace = array( ' ', ' ' );
 
