@@ -62,7 +62,6 @@ class base_html_cache
      */
     protected function _minifyHtml( $sValue )
     {
-        return $sValue;
         $aSearch = array( '/ {2,}/', '/<!--.*?-->|\t|(?:\r?\n[ \t]*)+/s' );
         $aReplace = array( ' ', ' ' );
 
