@@ -1,11 +1,13 @@
 <?php
 
 /**
- * This file is part of a OXID Cookbook project
+ * This file is part of a free OXID eShop module.
+ * It is Open Source - feel free to use it! But PLEASE guys:
+ * Respect the author and keep the stuff correct.
  *
- * Version:    1.0
- * Author:     Joscha Krug <krug@marmalade.de>
- * Author URI: http://www.marmalade.de
+ * Version:    2.0
+ * Author:     Joscha Krug <support@makaira.io>
+ * Author URI: https://www.makaira.io
  */
 
 /**
@@ -30,8 +32,9 @@ $aModule = array(
         'oxshopcontrol' => 'jkrug/cache/extend/core/jkrug_cache_oxshopcontrol',
     ),
     'files'        => array(
-        'base_html_cache' => 'jkrug/cache/src/base_html_cache.php',
-        'file_backend'    => 'jkrug/cache/src/backends/file_backend.php'
+        'base_html_cache'           => 'jkrug/cache/src/base_html_cache.php',
+        'file_backend'              => 'jkrug/cache/src/backends/file_backend.php',
+        'registry_cache_container'  => 'jkrug/cache/src/registry_cache_container.php'
     ),
     'settings'       => array(
         array(
