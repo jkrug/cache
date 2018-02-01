@@ -41,6 +41,8 @@ class base_html_cache
     /**
      * Minify the html output
      *
+     * ToDo: Make configurable
+     *
      * @param $sValue string
      * @return string
      */
@@ -186,7 +188,7 @@ class base_html_cache
         //ToDo: Change this for caching widgets
         $oUtilsServer = oxRegistry::get( "oxUtilsServer" );
         $requestUrl = $oUtilsServer->getServerVar( "REQUEST_URI" );
-        $key = md5($requestUrl);
+        $key = $this->getClassName() . '_' . md5($requestUrl);
 
         return $key;
     }

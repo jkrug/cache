@@ -66,7 +66,7 @@ class file_backend
     {
         $sPath = $this->_getStaticCachePath();
 
-        return $sPath . $key . '.json';
+        return $sPath . $key;
     }
 
     private function _getStaticCachePath(){
