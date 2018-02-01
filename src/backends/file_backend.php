@@ -1,9 +1,13 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: jkrug
- * Date: 16.01.18
- * Time: 16:44
+ * This file is part of a free OXID eShop module.
+ * It is Open Source - feel free to use it! But PLEASE guys:
+ * Respect the author and keep the stuff correct.
+ *
+ * Version:    2.0
+ * Author:     Joscha Krug <support@makaira.io>
+ * Author URI: https://www.makaira.io
  */
 
 class file_backend

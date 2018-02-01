@@ -3,7 +3,7 @@
 /**
  * This file is part of a free OXID eShop module.
  * It is Open Source - feel free to use it! But PLEASE guys:
- * Respect the author and keep the stuff correct.
+ * Respect the author and keep this note.
  *
  * Version:    2.0
  * Author:     Joscha Krug <support@makaira.io>

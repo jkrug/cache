@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * This file is part of a free OXID eShop module.
+ * It is Open Source - feel free to use it! But PLEASE guys:
+ * Respect the author and keep this note.
+ *
+ * Version:    2.0
+ * Author:     Joscha Krug <support@makaira.io>
+ * Author URI: https://www.makaira.io
+ */
+
 class jkrug_cache_oxshopcontrol extends jkrug_cache_oxshopcontrol_parent
 {
 

@@ -1,17 +1,27 @@
 <?php
 
+/**
+ * This file is part of a free OXID eShop module.
+ * It is Open Source - feel free to use it! But PLEASE guys:
+ * Respect the author and keep this note.
+ *
+ * Version:    2.0
+ * Author:     Joscha Krug <support@makaira.io>
+ * Author URI: https://www.makaira.io
+ */
+
 class base_html_cache
 {
 
     //ToDo: Make configarable in the backend.
     //ToDo: make widgets configurable separate to skip some of them with full basket.
     protected $_aCachableControllers = array(
-                                                //'oxwcategorytree', # For widgets we need to find a solution for oxstyle and oxscript
-                                                'start',
-                                                'alist',
-                                                'details',
-                                                'content'
-                                            );
+        //'oxwcategorytree', # For widgets we need to find a solution for oxstyle and oxscript or skip that in your theme.
+        'start',
+        'alist',
+        'details',
+        'content'
+    );
 
     protected $_cacheBackend = null;
 
