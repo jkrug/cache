@@ -140,12 +140,8 @@ class base_html_cache
         }
         $oConf = oxRegistry::getConfig();
         
-        // check for oxid version
-        if (version_compare('4.7.0', $oConf->getVersion(), '<')) {
-        	$partial = $oConf->getRequestParameter('renderPartial');
-        }else{
-        	$partial = $oConf->getParameter('renderPartial');
-        }
+       	$partial = $oConf->getRequestParameter('renderPartial');
+
         if(!empty($partial))
         {
             return false;
