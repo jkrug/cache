@@ -13,21 +13,15 @@
 class base_html_cache
 {
 
-    //ToDo: Make configarable in the backend.
     //ToDo: make widgets configurable separate to skip some of them with full basket.
-    protected $_aCachableControllers = array(
-        //'oxwcategorytree', # For widgets we need to find a solution for oxstyle and oxscript or skip that in your theme.
-        'start',
-        'alist',
-        'details',
-        'content'
-    );
+    protected $_aCachableControllers = array();
 
     protected $_cacheBackend = null;
 
     public function __construct( $oCacheBackend )
     {
         $this->_cacheBackend = $oCacheBackend;
+        $this->_aCachableControllers = $this->getCachableControllers();
     }
 
     /**
@@ -152,7 +146,6 @@ class base_html_cache
         }else{
         	$partial = $oConf->getParameter('renderPartial');
         }
-
         if(!empty($partial))
         {
             return false;
@@ -220,6 +213,15 @@ class base_html_cache
         }
 
         return false;
+    }
+
+    /**
+     * Returns cachable controllers according to backend settings
+     *
+     * @return array
+     */
+    protected function getCachableControllers() {
+        return oxRegistry::getConfig()->getShopConfVar('aCachedClasses',null,'module:jkrug/cache');
     }
 
 }

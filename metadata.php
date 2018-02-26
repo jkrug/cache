@@ -45,5 +45,11 @@ $aModule = array(
             'type'      => 'str',
             'value'     => '10'
         ),
+        array(
+            'group'     => 'main',
+            'name'      => 'aCachedClasses',
+            'type'      => 'arr',
+            'value'     => array('alist','start','details','content')
+        ),
     )
 );
