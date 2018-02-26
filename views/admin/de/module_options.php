@@ -14,5 +14,6 @@ $sLangName  = "Deutsch";
 $aLang = array(
     'charset'                           => 'utf-8',
     'SHOP_MODULE_iCacheLifetime'        => 'Cache Lifetime in Sekunden',
+    'SHOP_MODULE_aCachedClasses'        => 'Liste der Klassen, die gecacht werden sollen',
     'SHOP_MODULE_GROUP_main'            => 'Grundeinstellungen',
 );
