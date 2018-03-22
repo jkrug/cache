@@ -129,6 +129,20 @@ class base_html_cache
         {
             return false;
         }
+
+        //We do not use caching if any filter from Makaira module has been set
+        if ( $this->sClassName == 'alist' ) {
+            $oxModule = oxNew( 'oxModule' );
+            $oxModule->load( 'makaira/connect' );
+            if ( $oxModule->isActive() ) {
+                $aFilter = array_filter( oxRegistry::get( 'oxViewConfig' )->getAggregationFilter() );
+                if ( ! empty( $aFilter ) ) {
+                    return false;
+                }
+            }
+        }
+        //END Makaira filter check
+
         if( $this->sFunction )
         {
             return false;
