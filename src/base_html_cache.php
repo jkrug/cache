@@ -130,18 +130,29 @@ class base_html_cache
             return false;
         }
 
-        //We do not use caching if any filter from Makaira module has been set
+        //Check if any filter from makaira module has been set!
         if ( $this->sClassName == 'alist' ) {
-            $oxModule = oxNew( 'oxModule' );
-            $oxModule->load( 'makaira/connect' );
-            if ( $oxModule->isActive() ) {
-                $aFilter = array_filter( oxRegistry::get( 'oxViewConfig' )->getAggregationFilter() );
-                if ( ! empty( $aFilter ) ) {
-                    return false;
+            //OXID standard session filter
+            $aSessionFilter = oxRegistry::getSession()->getVariable( 'session_attrfilter' );
+            $sActCat = oxRegistry::getConfig()->getRequestParameter( 'cnid' );
+            $aAttrFilter = array_filter($aSessionFilter[$sActCat]);
+            if(!empty($aAttrFilter)) {
+                return false;
+            }
+            //Makaira filter
+            //we need to us emethod_exists as there is a bug in oxmodule::isActive() prior OXID 4.7.11
+            if(method_exists(oxRegistry::get( 'oxViewConfig' ), 'getAggregationFilter')) {
+                $oxModule = oxNew( 'oxModule' );
+                $oxModule->load( 'makaira/connect' );
+                if ( $oxModule->isActive() ) {
+                    $aFilter = array_filter( oxRegistry::get( 'oxViewConfig' )->getAggregationFilter() );
+                    if ( ! empty( $aFilter ) ) {
+                        return false;
+                    }
                 }
             }
         }
-        //END Makaira filter check
+        //END Filter check
 
         if( $this->sFunction )
         {
