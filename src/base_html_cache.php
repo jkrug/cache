@@ -140,7 +140,7 @@ class base_html_cache
                 return false;
             }
             //Makaira filter
-            //we need to us emethod_exists as there is a bug in oxmodule::isActive() prior OXID 4.7.11
+            //we need to use method_exists as there is a bug in oxmodule::isActive() prior OXID 4.7.11
             if(method_exists(oxRegistry::get( 'oxViewConfig' ), 'getAggregationFilter')) {
                 $oxModule = oxNew( 'oxModule' );
                 $oxModule->load( 'makaira/connect' );
