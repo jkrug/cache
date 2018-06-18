@@ -26,14 +26,14 @@ Installation
 ------------
 
 1.    Copy the module to you modules folder to get <shoproot>/modules/jkrug/cache/
-2.    create a empty vendormetadata.php in <shoproot>/modules/jkrug/
-2.    Activate module in the OXID backend.
-3.    Configure the module in the OXID backend.
+1.    create a empty vendormetadata.php in <shoproot>/modules/jkrug/
+1.    Activate module in the OXID backend.
+1.    Configure the module in the OXID backend.
 
 Usage of the registry cache
 ---------------------------
 
-I've seen soooo many modules nd shops doing tons of queries that are executed hundreds or even thousands of
+I've seen soooo many modules and shops doing tons of queries that are executed hundreds or even thousands of
 times on one page grabbing the same data again and again.
 Since OXID uses the registry pattern, it is PRETTY simple to reduce those queries with keeping them in the memory.
 
@@ -42,7 +42,7 @@ So let me give you a view real life examples:
 Number 1: oxConfig
 ------------------
 
-At least in older versions of OXID eShop (maybe one could check that?) a oxConfig->getShopConfVar() hammers to the database all the time! No matter if you already 
+At least in older versions of OXID eShop (maybe one could check that?) a `oxConfig->getShopConfVar()` hammers to the database all the time! No matter if you already 
 retrieved the same configuration parameter already.
 In most cases your configuriation will not change during a page load. Right?
 
@@ -69,7 +69,7 @@ To avaoid that you could of cause use a copy of the container class in your own 
 Number 2: Loading objects just once
 -----------------------------------
 
-Let's assume, you want to show an a category page on all products also the logo and the name of the manufacturer.
+Let's assume, you want to show a category page on all products also the logo and the name of the manufacturer.
 
 What you would do is maybe something like this:
 
@@ -92,7 +92,7 @@ What you would do is maybe something like this:
 ```
 
 But this means, that for each product in the list, you would create a new manufacturer object, 
-load all it's values from the database, and execute the getIconUrl method on it.
+load all its values from the database, and execute the `getIconUrl` method on it.
 You would do that in every case. Even if you did all that for the same manufacturer in exactly the product before.
 
 Here you could also use the container class to keep the data, once you've calculated the url for a manufacturer:
@@ -143,4 +143,4 @@ Here you could also use the container class to keep the data, once you've calcul
     }
 ```
 
-You see, that it is really simple to implement ad saves you a lot of database calls.
+You see, that it is really simple to implement and saves you a lot of database calls.
